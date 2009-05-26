@@ -1,0 +1,9 @@
+This is me teaching myself to use Clojure by writing a library to interface with timetric.com.
+
+It's all freely licensed (BSD 3-clause, see LICENSE) so feel free to steal any and all of it, but take it with a pinch of salt, I'm no Clojure expert!
+
+Usage should be obvious.
+
+Toby White
+Inkling Software
+May 2009
