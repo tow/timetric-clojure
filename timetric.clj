@@ -32,9 +32,19 @@
     (map ts-pair (parse-csv s))))
 
 
+(def token-key "key")
+(def token-secret "secret")
+
 (import '(java.net URL)                                       
+        '(java.net Authenticator)
+        '(java.net PasswordAuthentication)
         '(java.lang StringBuilder)
         '(java.io BufferedReader InputStreamReader))
+
+(Authenticator/setDefault
+  (proxy [Authenticator] [] 
+    (getPasswordAuthentication [] 
+      (PasswordAuthentication. token-key, (.toCharArray token-secret))))) 
 
 (defn fetch-url                                               
   "Return the web page as a string."                          
