@@ -1,3 +1,5 @@
+(load-file "base64.clj")
+
 (defn parse-csv
   "Parse limited sort of CSV"
   [s]
@@ -41,10 +43,23 @@
         '(java.lang StringBuilder)
         '(java.io BufferedReader InputStreamReader))
 
-(Authenticator/setDefault
-  (proxy [Authenticator] [] 
-    (getPasswordAuthentication [] 
-      (PasswordAuthentication. token-key, (.toCharArray token-secret))))) 
+(defn http-basic-encode-credentials
+  [key secret]
+  (apply str (encode (str key ":" secret))))
+
+(defn http-basic-auth-header
+  [key secret]
+  (str "Basic " (http-basic-encode-credentials key secret)))
+
+(defn fetch-url-with-auth
+  [address]
+  (let [url (URL. address)]
+    (let [connection (. url (openConnection))]
+      (. connection setRequestProperty "Authorization"
+        (http-basic-auth-header token-key token-secret))
+      (with-open [stream (. connection getInputStream)]
+      (let [buf (BufferedReader. (InputStreamReader. stream))]
+        (apply str (for [x (line-seq buf)] (str x "\n"))))))))
 
 (defn fetch-url                                               
   "Return the web page as a string."                          
@@ -55,7 +70,7 @@
         (apply str (for [x (line-seq buf)] (str x "\n")))))))
 
 (def interesting-series                                
-'("http://timetric.com/series/q0qbNDVaQVeKfisSaH8nyA/csv/" 
-"http://timetric.com/series/lWrNTpjqSaSsIudZoa0aSw/csv/"))
+'("https://timetric.com/series/q0qbNDVaQVeKfisSaH8nyA/csv/" 
+"https://timetric.com/series/lWrNTpjqSaSsIudZoa0aSw/csv/"))
 
 (for [url interesting-series] (parse-timetric-csv (fetch-url url)))
