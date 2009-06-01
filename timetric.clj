@@ -3,11 +3,9 @@
 (defn parse-csv
   "Parse limited sort of CSV"
   [s]
-  (vec 
-    (map 
-      (fn [coll]
-        (vec (rest coll)))
-      (re-seq #"(.*),\s*(.*)" s))))
+  (map 
+    (fn [coll] (rest coll))
+    (re-seq #"(.*),\s*(.*)" s)))
 
 (import '(java.util Date))
 
@@ -24,14 +22,13 @@
 
 (defn ts-pair                                                 
   [coll]             
-  (vector
+  (list
     (date-from-unix-timestamp (Double. (first coll)))
     (timetric-value (nth coll 1))))
 
 (defn parse-timetric-csv
   [s]
-  (vec
-    (map ts-pair (parse-csv s))))
+  (for [pair (parse-csv s)] (ts-pair pair)))
 
 
 (def token-key "key")
