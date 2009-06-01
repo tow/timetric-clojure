@@ -1,3 +1,5 @@
+(ns base64)
+
 (def *encode-table* "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=")
 
 (defn encode-num 

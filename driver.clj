@@ -8,4 +8,4 @@
 '("https://timetric.com/series/q0qbNDVaQVeKfisSaH8nyA/csv/"
   "https://timetric.com/series/lWrNTpjqSaSsIudZoa0aSw/csv/"))
 
-(for [url interesting-series] (get-timetric-series timetric-connection url))
+(for [url interesting-series] (timetric/get-series timetric-connection url))

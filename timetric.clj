@@ -1,3 +1,5 @@
+(ns timetric)
+
 (load-file "base64.clj")
 
 (defn parse-csv
@@ -36,7 +38,7 @@
 
 (defn http-basic-encode-credentials
   [key secret]
-  (apply str (encode (str key ":" secret))))
+  (apply str (base64/encode (str key ":" secret))))
 
 (defn http-basic-auth-header
   [credentials]
@@ -62,7 +64,7 @@
       (let [buf (BufferedReader. (InputStreamReader. stream))]
         (apply str (for [x (line-seq buf)] (str x "\n")))))))
 
-(defn get-timetric-series
+(defn get-series
    "Retrieve & parse a timetric URL"
    [credentials url]
    (parse-timetric-csv (fetch-url-with-auth credentials url)))
