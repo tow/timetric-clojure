@@ -61,3 +61,8 @@
     (with-open [stream (. url (openStream))]                  
       (let [buf (BufferedReader. (InputStreamReader. stream))]
         (apply str (for [x (line-seq buf)] (str x "\n")))))))
+
+(defn get-timetric-series
+   "Retrieve & parse a timetric URL"
+   [url]
+   (parse-timetric-csv (fetch-url-with-auth url)))
