@@ -2,6 +2,10 @@ This is me teaching myself to use Clojure by writing a library to interface with
 
 It's all freely licensed (BSD 3-clause, see LICENSE) so feel free to steal any and all of it, but take it with a pinch of salt, I'm no Clojure expert!
 
+The main library file is timetric.clj, which exposes functions within the 'timetric' namespace. There's only one interesting function in there at the moment, 'get-series', which given auth credentials & a URL will return a timeseries object (consisting of a list of Date/value pairs).
+
+There is a driver program in driver.clj to illustrate usage; you will need to insert your own API token credentials before use.
+
 Usage should be obvious.
 
 Toby White
