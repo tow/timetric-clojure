@@ -1,8 +1,8 @@
 (load-file "timetric.clj")
 
 (def timetric-connection
-  {"token-key" "key"
-   "token-secret" "secret"})
+  {"token-key" "put-your-key-here"
+   "token-secret" "put-your-secret-here"})
 
 (def interesting-series
 '("https://timetric.com/series/q0qbNDVaQVeKfisSaH8nyA/csv/"
