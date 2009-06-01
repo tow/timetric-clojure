@@ -31,8 +31,6 @@
   (for [pair (parse-csv s)] (ts-pair pair)))
 
 (import '(java.net URL)                                       
-        '(java.net Authenticator)
-        '(java.net PasswordAuthentication)
         '(java.lang StringBuilder)
         '(java.io BufferedReader InputStreamReader))
 
