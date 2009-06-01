@@ -30,10 +30,6 @@
   [s]
   (for [pair (parse-csv s)] (ts-pair pair)))
 
-
-(def token-key "key")
-(def token-secret "secret")
-
 (import '(java.net URL)                                       
         '(java.net Authenticator)
         '(java.net PasswordAuthentication)
@@ -65,9 +61,3 @@
     (with-open [stream (. url (openStream))]                  
       (let [buf (BufferedReader. (InputStreamReader. stream))]
         (apply str (for [x (line-seq buf)] (str x "\n")))))))
-
-(def interesting-series                                
-'("https://timetric.com/series/q0qbNDVaQVeKfisSaH8nyA/csv/" 
-"https://timetric.com/series/lWrNTpjqSaSsIudZoa0aSw/csv/"))
-
-(for [url interesting-series] (parse-timetric-csv (fetch-url url)))
