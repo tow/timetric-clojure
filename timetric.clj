@@ -39,20 +39,22 @@
   (apply str (encode (str key ":" secret))))
 
 (defn http-basic-auth-header
-  [key secret]
-  (str "Basic " (http-basic-encode-credentials key secret)))
+  [credentials]
+  (str "Basic "
+    (http-basic-encode-credentials
+      (credentials "token-key") (credentials "token-secret"))))
 
 (defn fetch-url-with-auth
-  [address]
+  [credentials address]
   (let [url (URL. address)]
     (let [connection (. url (openConnection))]
       (. connection setRequestProperty "Authorization"
-        (http-basic-auth-header token-key token-secret))
+        (http-basic-auth-header credentials))
       (with-open [stream (. connection getInputStream)]
       (let [buf (BufferedReader. (InputStreamReader. stream))]
         (apply str (for [x (line-seq buf)] (str x "\n"))))))))
 
-(defn fetch-url                                               
+(defn fetch-url
   "Return the web page as a string."                          
   [address]
   (let [url (URL. address)]                                   
@@ -62,5 +64,5 @@
 
 (defn get-timetric-series
    "Retrieve & parse a timetric URL"
-   [url]
-   (parse-timetric-csv (fetch-url-with-auth url)))
+   [credentials url]
+   (parse-timetric-csv (fetch-url-with-auth credentials url)))
